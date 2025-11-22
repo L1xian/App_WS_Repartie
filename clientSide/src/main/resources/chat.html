@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Support Chat</title>
+    <style>
+        body { font-family: sans-serif; }
+        #chat-window { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
+        #chat-window p { margin: 2px 0; }
+        #message-input { width: 80%; padding: 8px; }
+        #send-button { padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Customer Support Chat</h1>
+    <div id="chat-window"></div>
+    <input type="text" id="message-input" placeholder="Type your message here...">
+    <button id="send-button">Send</button>
+
+    <script>
+        const chatWindow = document.getElementById('chat-window');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const socket = new WebSocket('ws://localhost:8080/customer-support-chat');
+
+        function displayMessage(message) {
+            const p = document.createElement('p');
+            p.textContent = message;
+            chatWindow.appendChild(p);
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
+        }
+
+        socket.onopen = function(event) {
+            // The server now sends a welcome message, so we can rely on that.
+        };
+
+        socket.onmessage = function(event) {
+            displayMessage(event.data);
+        };
+
+        socket.onclose = function(event) {
+            displayMessage('Server: Connection closed.');
+        };
+
+        socket.onerror = function(error) {
+            displayMessage('Server: An error occurred.');
+            console.error('WebSocket Error:', error);
+        };
+
+        function sendMessage() {
+            const message = messageInput.value;
+            if (message.trim() !== '') {
+                // Display the user's own message immediately
+                displayMessage('You: ' + message);
+
+
+                // Send the message to the server
+                socket.send(message);
+                messageInput.value = '';
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+// HotelBookingSystem.idl - Corrected Version
+
+module HotelBooking {
+
+    // --- Custom Exceptions ---
+    exception HotelNotFound {
+        string reason;
+    };
+
+    exception InvalidReservation {
+        string reason;
+    };
+
+    // --- Data Structures ---
+    struct Date {
+        short year;
+        short month;
+        short day;
+    };
+
+    enum RoomType { SINGLE, DOUBLE, SUITE };
+
+    struct Room {
+        string id;
+        string roomNumber;
+        RoomType type;
+        double pricePerNight;
+        short capacity;
+    };
+
+    typedef sequence<Room> RoomList;
+
+    struct Hotel {
+        string id;
+        string name;
+        string location;
+        string description;
+        RoomList availableRooms;
+    };
+
+    typedef sequence<Hotel> HotelList;
+
+    // Renamed from Booking to Reservation to match the Java code
+    struct Reservation {
+        string id;
+        string userId;
+        string roomId;
+        string hotelId;
+        Date checkInDate;
+        Date checkOutDate;
+        double totalPrice;
+    };
+
+    typedef sequence<Reservation> ReservationList;
+
+    // --- Service Interfaces ---
+    interface HotelService {
+        HotelList searchHotels(in string location, in Date checkIn, in Date checkOut, in short numberOfGuests);
+        Hotel getHotelDetails(in string hotelId) raises (HotelNotFound);
+        RoomList getAvailableRooms(in string hotelId, in Date checkIn, in Date checkOut) raises (HotelNotFound);
+    };
+
+    interface BookingService {
+        // Updated signatures to use Reservation and throw exceptions
+        Reservation makeReservation(in string userId, in string roomId, in string hotelId, in Date checkIn, in Date checkOut) raises (HotelNotFound, InvalidReservation);
+        boolean cancelReservation(in string reservationId) raises (InvalidReservation);
+        Reservation getBookingDetails(in string reservationId) raises (InvalidReservation);
+        ReservationList getUserBookings(in string userId);
+    };
+};
