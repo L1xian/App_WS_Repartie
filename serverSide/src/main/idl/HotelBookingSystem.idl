@@ -29,7 +29,6 @@ module HotelBooking {
     };
 
     typedef sequence<Room> RoomList;
-
     struct Hotel {
         string id;
         string name;
@@ -40,7 +39,6 @@ module HotelBooking {
 
     typedef sequence<Hotel> HotelList;
 
-    // Renamed from Booking to Reservation to match the Java code
     struct Reservation {
         string id;
         string userId;
@@ -61,7 +59,6 @@ module HotelBooking {
     };
 
     interface BookingService {
-        // Updated signatures to use Reservation and throw exceptions
         Reservation makeReservation(in string userId, in string roomId, in string hotelId, in Date checkIn, in Date checkOut) raises (HotelNotFound, InvalidReservation);
         boolean cancelReservation(in string reservationId) raises (InvalidReservation);
         Reservation getBookingDetails(in string reservationId) raises (InvalidReservation);
