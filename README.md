@@ -1,12 +1,19 @@
 # Projec Overview
 This project
-represents a distributed hotel booking system
-
-It uses 
--REST protocol
--CORBA
--JNDI
-it s also split-up to 
+distributed hotel booking system Sepparee sure
     -serverSide
     -clientSide
+
+It uses
+SOA
+-REST 
+-CORBA
+-JNDI
+
+D.A.R
+-Websocket
+-JMS
+
+
+
 

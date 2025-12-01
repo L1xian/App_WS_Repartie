@@ -19,9 +19,9 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<?> makeReservation(@RequestParam String hotelId,
                                              @RequestParam String userId,
+                                             @RequestParam String roomType,
                                              @RequestParam String checkInDate,
-                                             @RequestParam String checkOutDate,
-                                             @RequestParam long numberOfRooms) {
+                                             @RequestParam String checkOutDate,) {
         try {
             Reservation reservation = corbaBookingService.makeReservation(hotelId, userId, checkInDate, checkOutDate, numberOfRooms);
             return new ResponseEntity<>(reservation, HttpStatus.CREATED);
@@ -37,8 +37,8 @@ public class ReservationController {
         try {
             Reservation reservation = corbaBookingService.getReservation(reservationId);
             return new ResponseEntity<>(reservation, HttpStatus.OK);
-        } catch (InvalidReservation e) {
-            return new ResponseEntity<>(e.message, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new () ResponseEntity<>(e.message, HttpStatus.NOT_FOUND);
         }
     }
 

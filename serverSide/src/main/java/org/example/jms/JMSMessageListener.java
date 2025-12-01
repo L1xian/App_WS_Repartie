@@ -12,3 +12,6 @@ public class JMSMessageListener {
         // Process the message, e.g., send email confirmation, update database, etc.
     }
 }
+// jms affichage web sync
+
+//jms messages/alerts async

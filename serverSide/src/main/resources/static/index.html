@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            height: 100vh; /* Full height sidebar */
+        }
+        .sidebar a {
+            display: block;
+            color: #333;
+            padding: 10px 0;
+            text-decoration: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .sidebar a:hover {
+            background-color: #e0e0e0;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <a href="index.html">Home</a>
+        <a href="reserve.html">Make a Reservation</a>
+        <a href="#">Another Page (Placeholder)</a>
+        <a href="#">Another Page (Placeholder)</a>
+        <a href="chat.html">Customer Support</a>
+    </div>
+    <div class="content">
+        <h1>Welcome to our Service!</h1>
+        <p>This is the landing page. Use the sidebar to navigate to other sections.</p>
+    </div>
+</body>
+</html>

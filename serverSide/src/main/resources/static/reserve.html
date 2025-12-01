@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Make a Reservation</title>
+</head>
+<body>
+    <h1>Make a Reservation</h1>
+
+    <form id="reservationForm">
+        <label for="hotelId">Hotel:</label><br>
+        <input type="text" id="hotelId" name="hotelId" required><br><br>
+
+        <label for="userId">Client Name:</label><br>
+        <input type="text" id="userId" name="userId" required><br><br>
+        <label>roomType:</label><br>
+        <select id="roomType" name="rt" >
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="suite">Suite</option>
+        </select><br><br>
+
+        <label for="checkInDate">Check-in Date:</label><br>
+        <input type="date" id="checkInDate" name="checkInDate" required><br><br>
+
+        <label for="checkOutDate">Check-out Date:</label><br>
+        <input type="date" id="checkOutDate" name="checkOutDate" required><br><br>
+
+        <input type="submit" value="Reserve">
+    </form>
+
+    <button id="return-button">Return to Index</button>
+
+    <script>
+        document.getElementById('return-button').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

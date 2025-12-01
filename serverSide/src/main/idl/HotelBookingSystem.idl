@@ -6,24 +6,19 @@ module HotelBooking {
     exception HotelNotFound {
         string reason;
     };
-
     exception InvalidReservation {
         string reason;
     };
-
     // --- Data Structures ---
     struct Date {
         short year;
         short month;
         short day;
     };
-
-    enum RoomType { SINGLE, DOUBLE, SUITE };
-
     struct Room {
         string id;
         string roomNumber;
-        RoomType type;
+        string  roomType;
         double pricePerNight;
         short capacity;
     };
