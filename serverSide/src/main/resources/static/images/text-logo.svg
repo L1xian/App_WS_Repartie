@@ -1,0 +1,7 @@
+<svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="60" fill="#2c3e50"/>
+    <text x="100" y="35" font-family="Arial, sans-serif" font-size="24"
+          font-weight="bold" fill="#ecf0f1" text-anchor="middle">
+        🏨 Hotel Booking
+    </text>
+</svg>
