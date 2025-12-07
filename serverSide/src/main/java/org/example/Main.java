@@ -47,6 +47,10 @@ public class Main {
         return factory;
     }
 
+    // CORBA BEANS COMMENTED OUT - Using MockCorbaConfig instead for Java 17 compatibility
+    // Uncomment these when you want to connect to a real CORBA server
+
+    /*
     @Bean
     public org.omg.CORBA.ORB corbaOrb() {
         return org.omg.CORBA.ORB.init((String[])null, null);
@@ -69,4 +73,5 @@ public class Main {
             return null;
         }
     }
+    */
 }

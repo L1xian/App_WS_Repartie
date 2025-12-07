@@ -17,7 +17,7 @@ public class CustomerSupportChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("New chat connection established: " + session.getId());
         sessions.add(session);
-        broadcast("Server: A new user has joined the chat.");
+        broadcast("Server: A new user has joined the chat.", session);
     }
 
     @Override
@@ -25,19 +25,19 @@ public class CustomerSupportChatHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         System.out.println("Received message: " + payload + " from " + session.getId());
         // Broadcast the message to all other sessions
-        broadcast(session.getId() + ": " + payload);
+        broadcast(session.getId() + ": " + payload, session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("Chat connection closed: " + session.getId());
         sessions.remove(session);
-        broadcast("Server: A user has left the chat.");
+        broadcast("Server: A user has left the chat.", session);
     }
 
-    private void broadcast(String message) throws IOException {
+    private void broadcast(String message, WebSocketSession sender) throws IOException {
         for (WebSocketSession session : sessions) {
-            if (session.isOpen()) {
+            if (session.isOpen() && !session.getId().equals(sender.getId())) {
                 session.sendMessage(new TextMessage(message));
             }
         }

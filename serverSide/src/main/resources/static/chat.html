@@ -2,77 +2,323 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer Support Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 Support - 24 Hotels</title>
     <style>
-        body { font-family: sans-serif; }
-        #chat-window { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
-        #chat-window p { margin: 2px 0; }
-        #message-input { width: 80%; padding: 8px; }
-        #send-button { padding: 8px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #1e293b;
+            max-width: 900px;
+            margin: 40px auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: #0f172a;
+            padding: 24px;
+            border-bottom: 1px solid #334155;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        #chat-window {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #1e293b;
+        }
+
+        #chat-window::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-window::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        #chat-window::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            word-wrap: break-word;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .message.server .message-bubble {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.user .message-bubble {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .message.system .message-bubble {
+            background: #422006;
+            color: #fbbf24;
+            font-style: italic;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+
+        .input-area {
+            padding: 20px;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+            display: flex;
+            gap: 12px;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #1e293b;
+            color: white;
+            transition: border-color 0.2s;
+        }
+
+        #message-input::placeholder {
+            color: #64748b;
+        }
+
+        #message-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        #send-button {
+            background: #3b82f6;
+            color: white;
+        }
+
+        #send-button:hover:not(:disabled) {
+            background: #2563eb;
+        }
+
+        #send-button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        #return-button {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        #return-button:hover {
+            background: #475569;
+        }
+
+        .connection-status {
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            color: #64748b;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+        }
+
+        .connection-status.connected {
+            color: #10b981;
+        }
+
+        .connection-status.disconnected {
+            color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                height: calc(100vh - 40px);
+                margin: 20px auto;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .input-area {
+                flex-wrap: wrap;
+            }
+
+            #return-button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Customer Support Chat</h1>
+<div class="container">
+    <div class="header">
+        <h1>24/7 Emergency Support</h1>
+        <p class="subtitle">Instant help for urgent bookings • Always available</p>
+    </div>
+
+    <div class="connection-status" id="status">Connecting to support...</div>
+
     <div id="chat-window"></div>
-    <input type="text" id="message-input" placeholder="Type your message here...">
-    <button id="send-button">Send</button>
-    <button id="return-button">Return</button>
 
-    <script>
-        const chatWindow = document.getElementById('chat-window');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
+    <div class="input-area">
+        <input type="text" id="message-input" placeholder="Type your message..." disabled>
+        <button id="send-button" class="btn" disabled>Send</button>
+        <button id="return-button" class="btn">Back</button>
+    </div>
+</div>
 
-        // Establish WebSocket connection
-        // Assumes the server is running on localhost:8080
-        const socket = new WebSocket('ws://localhost:8080/customer-support-chat');
+<script>
+    const chatWindow = document.getElementById('chat-window');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const statusDiv = document.getElementById('status');
 
-        function displayMessage(message) {
-            const p = document.createElement('p');
-            p.textContent = message;
-            chatWindow.appendChild(p);
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
-        }
+    let socket;
+
+    function displayMessage(message, type = 'server') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+        bubble.textContent = message;
+
+        messageDiv.appendChild(bubble);
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function updateStatus(status, isConnected) {
+        statusDiv.textContent = status;
+        statusDiv.className = `connection-status ${isConnected ? 'connected' : 'disconnected'}`;
+    }
+
+    function connectWebSocket() {
+        socket = new WebSocket('ws://localhost:8080/customer-support-chat');
 
         socket.onopen = function(event) {
-            displayMessage('Server: Connection established.');
+            updateStatus('● Connected', true);
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            displayMessage('Emergency support connected. Need a room tonight? We can help.', 'system');
             console.log('WebSocket connection opened:', event);
         };
 
         socket.onmessage = function(event) {
-            displayMessage(event.data);
+            const message = event.data;
+            // Don't display if it's an echo with user ID
+            if (!message.startsWith('User-') && !message.includes('ID:')) {
+                displayMessage(message, 'server');
+            }
             console.log('Message from server:', event.data);
         };
 
         socket.onclose = function(event) {
-            displayMessage('Server: Connection closed.');
+            updateStatus('● Disconnected', false);
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            displayMessage('Connection closed. Refresh to reconnect.', 'system');
             console.log('WebSocket connection closed:', event);
         };
 
         socket.onerror = function(error) {
-            displayMessage('Server: An error occurred.');
+            updateStatus('● Connection Error', false);
+            displayMessage('Unable to connect. Please try again later.', 'system');
             console.error('WebSocket Error:', error);
         };
+    }
 
-        function sendMessage() {
-            const message = messageInput.value;
-            if (message.trim() !== '') {
-                socket.send(message);
-                messageInput.value = '';
-            }
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message !== '' && socket.readyState === WebSocket.OPEN) {
+            displayMessage(message, 'user');
+            socket.send(message);
+            messageInput.value = '';
         }
+    }
 
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
+    sendButton.addEventListener('click', sendMessage);
 
-       document.getElementById('return-button').addEventListener('click', function() {
-            window.location.href = 'index.html'; // Navigate to index.html
-        });
+    messageInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
 
-    </script>
+    document.getElementById('return-button').addEventListener('click', function() {
+        if (socket) {
+            socket.close();
+        }
+        window.location.href = 'index.html';
+    });
+
+    connectWebSocket();
+</script>
 </body>
 </html>

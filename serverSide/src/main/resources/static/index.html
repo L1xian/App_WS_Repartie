@@ -3,48 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>24 Hotels - Book Your Stay in Under 24 Hours</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #334155;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .sidebar {
-            width: 200px;
-            background-color: #f0f0f0;
-            padding: 15px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            height: 100vh; /* Full height sidebar */
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
         }
-        .sidebar a {
-            display: block;
-            color: #333;
-            padding: 10px 0;
+
+        .logo-accent {
+            color: #3b82f6;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #94a3b8;
             text-decoration: none;
-            border-bottom: 1px solid #ddd;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .sidebar a:hover {
-            background-color: #e0e0e0;
+
+        .nav-link:hover {
+            color: white;
         }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
+
+        /* Hero Section */
+        .hero {
+            background: #0f172a;
+            padding: 120px 2rem 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #334155;
+        }
+
+        /* Features Section */
+        .features {
+            background: #1e293b;
+            padding: 80px 2rem;
+            border-top: 1px solid #334155;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #0f172a;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            border: 1px solid #334155;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #3b82f6;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #0f172a;
+            padding: 60px 2rem;
+            border-top: 1px solid #334155;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #1e293b;
+            padding: 80px 2rem;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+
+        .cta h2 {
+            font-size: 38px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            padding: 40px 2rem;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+
+        .footer p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Navigation</h2>
-        <a href="index.html">Home</a>
-        <a href="reserve.html">Make a Reservation</a>
-        <a href="#">Another Page (Placeholder)</a>
-        <a href="#">Another Page (Placeholder)</a>
-        <a href="chat.html">Customer Support</a>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-content">
+        <div class="logo-text"><span class="logo-accent">24</span> Hotels</div>
+        <div class="nav-links">
+            <a href="search.html" class="nav-link">Search</a>
+            <a href="reserve.html" class="nav-link">Book Now</a>
+            <a href="chat.html" class="nav-link">Support</a>
+        </div>
     </div>
-    <div class="content">
-        <h1>Welcome to our Service!</h1>
-        <p>This is the landing page. Use the sidebar to navigate to other sections.</p>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Need a Hotel Right Now? Book in Under 24 Hours</h1>
+        <p class="hero-subtitle">
+            Last-minute bookings made easy. Instant availability for same-day check-ins.
+            Whether it's an emergency, unexpected travel, or spontaneous plans - we've got you covered 24/7.
+        </p>
+        <div class="hero-buttons">
+            <a href="search.html" class="btn btn-primary">
+                <span>Find Hotels Now</span>
+                <span>→</span>
+            </a>
+            <a href="reserve.html" class="btn btn-secondary">
+                Same-Day Booking
+            </a>
+        </div>
     </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="stats-container">
+        <div class="stat-item">
+            <h4>&lt;24h</h4>
+            <p>Average Booking Time</p>
+        </div>
+        <div class="stat-item">
+            <h4>100K+</h4>
+            <p>Emergency Bookings</p>
+        </div>
+        <div class="stat-item">
+            <h4>95%</h4>
+            <p>Same-Day Success Rate</p>
+        </div>
+        <div class="stat-item">
+            <h4>24/7</h4>
+            <p>Instant Support</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="features-container">
+        <h2 class="section-title">Built for Last-Minute Travelers</h2>
+        <p class="section-subtitle">Everything you need when time is critical</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Availability</h3>
+                <p>Real-time updates on same-day and next-day availability. Book now, check-in within hours.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🕐</div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock assistance for urgent bookings. Get help any time, day or night.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚨</div>
+                <h3>Emergency Priority</h3>
+                <p>Priority booking system for urgent needs. Fast-track processing for time-sensitive situations.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>Quick Checkout</h3>
+                <p>Streamlined payment process. Confirm and pay in under 2 minutes.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Instant Confirmation</h3>
+                <p>Immediate booking confirmation via SMS and email. No waiting, no uncertainty.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Flexible Options</h3>
+                <p>Last-minute cancellations accepted. Change plans on the fly with minimal hassle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <h2>Need a Room Tonight? We're Here 24/7</h2>
+    <p>Immediate assistance for urgent bookings. Our team never sleeps.</p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="search.html" class="btn btn-primary">Book Emergency Stay</a>
+        <a href="chat.html" class="btn btn-secondary">24/7 Live Support</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2025 24 Hotels. All rights reserved. | 24/7 Emergency Hotel Booking Service</p>
+</footer>
 </body>
 </html>

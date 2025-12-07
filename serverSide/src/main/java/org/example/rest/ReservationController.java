@@ -1,9 +1,6 @@
 package org.example.rest;
 
-import HotelBooking.BookingService;
-import HotelBooking.HotelNotFound;
-import HotelBooking.InvalidReservation;
-import HotelBooking.Reservation;
+import HotelBooking.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +14,16 @@ public class ReservationController {
     private BookingService corbaBookingService;
 
     @PostMapping
-    public ResponseEntity<?> makeReservation(@RequestParam String hotelId,
-                                             @RequestParam String userId,
-                                             @RequestParam String roomType,
-                                             @RequestParam String checkInDate,
-                                             @RequestParam String checkOutDate,) {
+    public ResponseEntity<?> makeReservation(@RequestParam String userId,
+                                             @RequestParam String hotelId,
+                                             @RequestParam String dateRange) {
         try {
-            Reservation reservation = corbaBookingService.makeReservation(hotelId, userId, checkInDate, checkOutDate, numberOfRooms);
+            Reservation reservation = corbaBookingService.makeReservation(userId, hotelId, dateRange);
             return new ResponseEntity<>(reservation, HttpStatus.CREATED);
         } catch (HotelNotFound e) {
-            return new ResponseEntity<>(e.message, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (InvalidReservation e) {
-            return new ResponseEntity<>(e.message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -37,18 +32,21 @@ public class ReservationController {
         try {
             Reservation reservation = corbaBookingService.getReservation(reservationId);
             return new ResponseEntity<>(reservation, HttpStatus.OK);
-        } catch (Exception e) {
-            return new () ResponseEntity<>(e.message, HttpStatus.NOT_FOUND);
+        } catch (InvalidReservation e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<?> cancelReservation(@PathVariable String reservationId) {
         try {
-            corbaBookingService.cancelReservation(reservationId);
-            return new ResponseEntity<>("Reservation cancelled successfully", HttpStatus.NO_CONTENT);
+            boolean cancelled = corbaBookingService.cancelReservation(reservationId);
+            if (cancelled) {
+                return new ResponseEntity<>("Reservation cancelled", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Cancellation failed", HttpStatus.BAD_REQUEST);
         } catch (InvalidReservation e) {
-            return new ResponseEntity<>(e.message, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

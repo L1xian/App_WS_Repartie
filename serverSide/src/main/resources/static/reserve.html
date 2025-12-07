@@ -1,40 +1,215 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make a Reservation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .label-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        #search-link {
+            font-size: 12px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        #search-link:hover {
+            text-decoration: underline;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <h1>Make a Reservation</h1>
+<div class="container">
+    <div class="header">
+        <div class="logo">📅</div>
+        <h1 id="reservation-title">Make a Reservation</h1>
+        <p class="subtitle">Fill in the details below to book your stay</p>
+    </div>
 
-    <form id="reservationForm">
-        <label for="hotelId">Hotel:</label><br>
-        <input type="text" id="hotelId" name="hotelId" required><br><br>
+    <form id="reservationForm" action="http://localhost/reservation.php" method="POST">
+        <div class="form-group">
+            <div class="label-group">
+                <label for="hotelId">Hotel ID</label>
+                <a href="search.html" id="search-link">Search for a hotel?</a>
+            </div>
+            <input type="text" id="hotelId" name="hotelId" placeholder="Enter Hotel ID or find one via search" required>
+        </div>
 
-        <label for="userId">Client Name:</label><br>
-        <input type="text" id="userId" name="userId" required><br><br>
-        <label>roomType:</label><br>
-        <select id="roomType" name="rt" >
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="suite">Suite</option>
-        </select><br><br>
+        <div class="form-group">
+            <label for="userId">Your Name</label>
+            <input type="text" id="userId" name="userId" placeholder="Enter your full name" required>
+        </div>
 
-        <label for="checkInDate">Check-in Date:</label><br>
-        <input type="date" id="checkInDate" name="checkInDate" required><br><br>
+        <div class="form-group">
+            <label for="roomType">Room Type</label>
+            <select id="roomType" name="roomType" required>
+                <option value="">Select room type</option>
+                <option value="single">Single Room</option>
+                <option value="double">Double Room</option>
+                <option value="suite">Suite</option>
+            </select>
+        </div>
 
-        <label for="checkOutDate">Check-out Date:</label><br>
-        <input type="date" id="checkOutDate" name="checkOutDate" required><br><br>
+        <div class="form-group">
+            <label for="checkInDate">Check-in Date</label>
+            <input type="date" id="checkInDate" name="checkInDate" required>
+        </div>
 
-        <input type="submit" value="Reserve">
+        <div class="form-group">
+            <label for="checkOutDate">Check-out Date</label>
+            <input type="date" id="checkOutDate" name="checkOutDate" required>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">🏨 Reserve Now</button>
+            <button type="button" class="btn btn-secondary" id="home-button">← Back to Home</button>
+        </div>
     </form>
+</div>
 
-    <button id="return-button">Return to Index</button>
+<script>
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('checkInDate').setAttribute('min', today);
+    document.getElementById('checkOutDate').setAttribute('min', today);
 
-    <script>
-        document.getElementById('return-button').addEventListener('click', function() {
-            window.location.href = 'index.html';
-        });
-    </script>
+    // Update checkout min date when checkin changes
+    document.getElementById('checkInDate').addEventListener('change', function() {
+        document.getElementById('checkOutDate').setAttribute('min', this.value);
+    });
+
+    document.getElementById('home-button').addEventListener('click', function() {
+        window.location.href = 'index.html';
+    });
+
+    // Populate hotel info from URL
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hotelId = urlParams.get('hotelId');
+        const hotelName = urlParams.get('hotelName');
+
+        if (hotelId) {
+            document.getElementById('hotelId').value = hotelId;
+        }
+        if (hotelName) {
+            document.getElementById('reservation-title').textContent = 'Reserve at ' + hotelName;
+        }
+    });
+</script>
 </body>
 </html>
