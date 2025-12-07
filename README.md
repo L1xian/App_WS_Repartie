@@ -1,18 +1,21 @@
 # Projec Overview
-This project
-distributed hotel booking system Sepparee sure
+This project represents a booking system devided to 
     -serverSide
     -clientSide
-
-It uses
-SOA
+used protocols
+(SOA)
 -REST 
 -CORBA
 -JNDI
 
-D.A.R
+(D.A.R)
 -Websocket
 -JMS
+
+(BD)
+easyphp
+
+
 
 ## UML Class Diagram
 
